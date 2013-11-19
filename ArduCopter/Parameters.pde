@@ -98,9 +98,9 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @Param: FS_BATT_ENABLE
     // @DisplayName: Battery Failsafe Enable
     // @Description: Controls whether failsafe will be invoked when battery voltage or current runs low
-    // @Values: 0:Disabled,1:Enabled
+    // @Values: 0:Disabled,1:Land,2:RTL
     // @User: Standard
-    GSCALAR(failsafe_battery_enabled, "FS_BATT_ENABLE", FS_BATTERY),
+    GSCALAR(failsafe_battery_enabled, "FS_BATT_ENABLE", FS_BATT_DISABLED),
 
     // @Param: FS_BATT_VOLTAGE
     // @DisplayName: Failsafe battery voltage
@@ -120,10 +120,10 @@ const AP_Param::Info var_info[] PROGMEM = {
 
     // @Param: FS_GPS_ENABLE
     // @DisplayName: GPS Failsafe Enable
-    // @Description: Controls whether failsafe will be invoked when gps signal is lost
-    // @Values: 0:Disabled,1:Enabled
+    // @Description: Controls what action will be taken if GPS signal is lost for at least 5 seconds
+    // @Values: 0:Disabled,1:Land,2:AltHold,3:Land even from Stabilize
     // @User: Standard
-    GSCALAR(failsafe_gps_enabled, "FS_GPS_ENABLE", FS_GPS),
+    GSCALAR(failsafe_gps_enabled, "FS_GPS_ENABLE", FS_GPS_LAND),
 
     // @Param: FS_GCS_ENABLE
     // @DisplayName: Ground Station Failsafe Enable
@@ -397,10 +397,10 @@ const AP_Param::Info var_info[] PROGMEM = {
 
     // @Param: ARMING_CHECK
     // @DisplayName: Arming check
-    // @Description: Allows enabling or disabling of pre-arming checks of receiver, accelerometer, barometer and compass
-    // @Values: 0:Disabled, 1:Enabled
+    // @Description: Allows enabling or disabling of pre-arming checks of receiver, accelerometer, barometer, compass and GPS
+    // @Values: 0:Disabled, 1:Enabled, -3:Skip Baro, -5:Skip Compass, -9:Skip GPS, -17:Skip INS, -33:Skip Parameters, -65:Skip RC, 127:Skip Voltage
     // @User: Standard
-    GSCALAR(arming_check_enabled, "ARMING_CHECK",   1),
+    GSCALAR(arming_check_enabled, "ARMING_CHECK",   ARMING_CHECK_ALL),
 
     // @Param: ANGLE_MAX
     // @DisplayName: Angle Max
@@ -434,6 +434,7 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @DisplayName: Rate Pitch Feed Forward
     // @Description: Rate Pitch Feed Forward (for TradHeli Only)
     // @Range: 0 10
+    // @Increment: 0.01
     // @User: Standard
 	GSCALAR(heli_pitch_ff, "RATE_PIT_FF",            HELI_PITCH_FF),
 
@@ -441,6 +442,7 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @DisplayName: Rate Roll Feed Forward
     // @Description: Rate Roll Feed Forward (for TradHeli Only)
     // @Range: 0 10
+    // @Increment: 0.01
     // @User: Standard
 	GSCALAR(heli_roll_ff, "RATE_RLL_FF",            HELI_ROLL_FF),
 
@@ -448,9 +450,29 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @DisplayName: Rate Yaw Feed Forward
     // @Description: Rate Yaw Feed Forward (for TradHeli Only)
     // @Range: 0 10
+    // @Increment: 0.01
     // @User: Standard
 	GSCALAR(heli_yaw_ff, "RATE_YAW_FF",            HELI_YAW_FF),
+
+    // @Param: STAB_COL_MIN
+    // @DisplayName: Heli Stabilize Throttle Collective Minimum
+    // @Description: Helicopter's minimum collective position while pilot directly controls collective in stabilize mode
+    // @Range: 0 500
+    // @Units: pwm
+    // @Increment: 1
+    // @User: Standard
+    GSCALAR(heli_stab_col_min, "STAB_COL_MIN", HELI_STAB_COLLECTIVE_MIN_DEFAULT),
+
+    // @Param: STAB_COL_MAX
+    // @DisplayName: Stabilize Throttle Maximum
+    // @Description: Helicopter's maximum collective position while pilot directly controls collective in stabilize mode
+    // @Range: 500 1000
+    // @Units: pwm
+    // @Increment: 1
+    // @User: Standard
+    GSCALAR(heli_stab_col_max, "STAB_COL_MAX", HELI_STAB_COLLECTIVE_MAX_DEFAULT),
 #endif
+
 #if FRAME_CONFIG ==     SINGLE_FRAME
     // @Group: SS1_
     // @Path: ../libraries/RC_Channel/RC_Channel.cpp

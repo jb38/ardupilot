@@ -170,11 +170,6 @@ static void init_ardupilot()
     }
 #endif
 
-#if FRAME_CONFIG == HELI_FRAME
-    motors.servo_manual = false;
-    motors.init_swash();              // heli initialisation
-#endif
-
     init_rc_in();               // sets up rc channels from radio
     init_rc_out();              // sets up motors and output to escs
 
@@ -239,11 +234,6 @@ static void init_ardupilot()
     init_sonar();
 #endif
 
-#if FRAME_CONFIG == HELI_FRAME
-    // initialise controller filters
-    init_rate_controllers();
-#endif // HELI_FRAME
-
     // initialize commands
     // -------------------
     init_commands();
@@ -252,6 +242,11 @@ static void init_ardupilot()
     // ---------------------------
     reset_control_switch();
     init_aux_switches();
+
+#if FRAME_CONFIG == HELI_FRAME
+    // trad heli specific initialisation
+    heli_init();
+#endif
 
     startup_ground(true);
 
@@ -332,8 +327,9 @@ static bool manual_flight_mode(uint8_t mode) {
 }
 
 // set_mode - change flight mode and perform any necessary initialisation
+// optional force parameter used to force the flight mode change (used only first time mode is set)
 // returns true if mode was succesfully set
-// STABILIZE, ACRO, SPORT and LAND can always be set successfully but the return state of other flight modes should be checked and the caller should deal with failures appropriately
+// ACRO, STABILIZE, ALTHOLD, LAND, DRIFT and SPORT can always be set successfully but the return state of other flight modes should be checked and the caller should deal with failures appropriately
 static bool set_mode(uint8_t mode)
 {
     // boolean to record if flight mode could be set
@@ -356,9 +352,9 @@ static bool set_mode(uint8_t mode)
 
         case STABILIZE:
             success = true;
-            set_yaw_mode(YAW_HOLD);
-            set_roll_pitch_mode(ROLL_PITCH_STABLE);
-            set_throttle_mode(THROTTLE_MANUAL_TILT_COMPENSATED);
+            set_yaw_mode(STABILIZE_YAW);
+            set_roll_pitch_mode(STABILIZE_RP);
+            set_throttle_mode(STABILIZE_THR);
             set_nav_mode(NAV_NONE);
             break;
 
@@ -495,10 +491,18 @@ static void update_auto_armed()
         }
     }else{
         // arm checks
+        
+#if FRAME_CONFIG == HELI_FRAME
+        // for tradheli if motors are armed and throttle is above zero and the motor is started, auto_armed should be true
+        if(motors.armed() && g.rc_3.control_in != 0 && motors.motor_runup_complete()) {
+            set_auto_armed(true);
+        }
+#else
         // if motors are armed and throttle is above zero auto_armed should be true
         if(motors.armed() && g.rc_3.control_in != 0) {
             set_auto_armed(true);
         }
+#endif // HELI_FRAME
     }
 }
 

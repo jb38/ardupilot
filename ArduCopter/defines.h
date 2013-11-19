@@ -40,6 +40,7 @@
 #define THROTTLE_HOLD                       2   // alt hold plus pilot input of climb rate
 #define THROTTLE_AUTO                       3   // auto pilot altitude controller with target altitude held in next_WP.alt
 #define THROTTLE_LAND                       4   // landing throttle controller
+#define THROTTLE_MANUAL_HELI                5   // pilot manually controlled throttle for traditional helicopters
 
 
 // sonar - for use with CONFIG_SONAR_SOURCE
@@ -467,5 +468,32 @@ enum ap_message {
 // subsystem specific error codes -- crash checker
 #define ERROR_CODE_CRASH_CHECK_CRASH        1
 
+// Arming Check Enable/Disable bits
+#define ARMING_CHECK_NONE                   0x00
+#define ARMING_CHECK_ALL                    0x01
+#define ARMING_CHECK_BARO                   0x02
+#define ARMING_CHECK_COMPASS                0x04
+#define ARMING_CHECK_GPS                    0x08
+#define ARMING_CHECK_INS                    0x10
+#define ARMING_CHECK_PARAMETERS             0x20
+#define ARMING_CHECK_RC                     0x40
+#define ARMING_CHECK_VOLTAGE                0x80
+
+// Radio failsafe definitions (FS_THR parameter)
+#define FS_THR_DISABLED                    0
+#define FS_THR_ENABLED_ALWAYS_RTL          1
+#define FS_THR_ENABLED_CONTINUE_MISSION    2
+#define FS_THR_ENABLED_ALWAYS_LAND         3
+
+// Battery failsafe definitions (FS_BATT_ENABLE parameter)
+#define FS_BATT_DISABLED                    0       // battery failsafe disabled
+#define FS_BATT_LAND                        1       // switch to LAND mode on battery failsafe
+#define FS_BATT_RTL                         2       // switch to RTL mode on battery failsafe
+
+// GPS Failsafe definitions (FS_GPS_ENABLE parameter)
+#define FS_GPS_DISABLED                     0       // GPS failsafe disabled
+#define FS_GPS_LAND                         1       // switch to LAND mode on GPS Failsafe
+#define FS_GPS_ALTHOLD                      2       // switch to ALTHOLD mode on GPS failsafe
+#define FS_GPS_LAND_EVEN_STABILIZE          3       // switch to LAND mode on GPS failsafe even if in a manual flight mode like Stabilize
 
 #endif // _DEFINES_H
