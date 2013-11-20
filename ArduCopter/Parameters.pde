@@ -226,7 +226,7 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @DisplayName: Land speed
     // @Description: The descent speed for the final stage of landing in cm/s
     // @Units: cm/s
-    // @Range: 20 200
+    // @Range: 30 200
     // @Increment: 10
     // @User: Standard
     GSCALAR(land_speed,             "LAND_SPEED",   LAND_SPEED),
@@ -1070,8 +1070,8 @@ const AP_Param::Info var_info[] PROGMEM = {
     // @Group: SS4_
     // @Path: ../libraries/RC_Channel/RC_Channel.cpp
     GGROUP(single_servo_4,    "SS4_", RC_Channel),
-    // @Group: H_
-    // @Path: ../libraries/AP_Motors/AP_MotorsHeli.cpp
+    // @Group: (SingleCopter)MOT_
+    // @Path: ../libraries/AP_Motors/AP_MotorsSingle.cpp
     GOBJECT(motors, "MOT_",           AP_MotorsSingle),
 
 #else
