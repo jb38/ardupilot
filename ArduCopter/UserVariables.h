@@ -8,9 +8,9 @@
 // HoodCopter Custom Payload //
 ///////////////////////////////
 
-#define HOOD_RANGE1_ANALOG_PIN 4 // left
-#define HOOD_RANGE2_ANALOG_PIN 5 // center
-#define HOOD_RANGE3_ANALOG_PIN 6 // right
+#define HOOD_RANGE1_ANALOG_PIN 4 // center
+#define HOOD_RANGE2_ANALOG_PIN 5 // left (mounted on right arm)
+#define HOOD_RANGE3_ANALOG_PIN 6 // right (mounted on left arm)
 
 ModeFilterInt16_Size7 hood_range1_mode_filter(3);
 ModeFilterInt16_Size7 hood_range2_mode_filter(3);
@@ -20,11 +20,9 @@ static AP_HAL::AnalogSource *hood_range1_analog_source;
 static AP_HAL::AnalogSource *hood_range2_analog_source;
 static AP_HAL::AnalogSource *hood_range3_analog_source;
 
-static AP_RangeFinder_SharpGP2Y *hood_range1; // left
-static AP_RangeFinder_SharpGP2Y *hood_range2; // center
-static AP_RangeFinder_SharpGP2Y *hood_range3; // right
-
-
+static AP_RangeFinder_SharpGP2Y *hood_range1; // center
+static AP_RangeFinder_SharpGP2Y *hood_range2; // left-facing
+static AP_RangeFinder_SharpGP2Y *hood_range3; // right-facing
 
 /////////////////////////////
 // Hood Autonomous Control //
