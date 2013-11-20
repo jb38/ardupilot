@@ -35,7 +35,6 @@
 // hal.console-> ports
 ////////////////////////////////////////////////////////////////////////////////
 
-
 const AP_HAL::HAL& hal = AP_HAL_BOARD_DRIVER;
 
 // declare global instances
@@ -76,7 +75,6 @@ void loop()
     hal.console->println();
 
     hal.scheduler->delay(100);
-
 }
 
 AP_HAL_MAIN();

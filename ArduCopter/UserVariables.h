@@ -8,9 +8,9 @@
 // HoodCopter Custom Payload //
 ///////////////////////////////
 
-#define HOOD_RANGE1_PIN AN4 // left
-#define HOOD_RANGE2_PIN AN5 // center
-#define HOOD_RANGE3_PIN AN6 // right
+#define HOOD_RANGE1_ANALOG_PIN 4 // left
+#define HOOD_RANGE2_ANALOG_PIN 5 // center
+#define HOOD_RANGE3_ANALOG_PIN 6 // right
 
 ModeFilterInt16_Size7 hood_range1_mode_filter(3);
 ModeFilterInt16_Size7 hood_range2_mode_filter(3);

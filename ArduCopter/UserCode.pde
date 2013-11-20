@@ -3,9 +3,9 @@
 #ifdef USERHOOK_INIT
 void userhook_init()
 {
-    hood_range1_analog_source = hal.analogin->channel(HOOD_RANGE1_PIN);
-    hood_range2_analog_source = hal.analogin->channel(HOOD_RANGE2_PIN);
-    hood_range3_analog_source = hal.analogin->channel(HOOD_RANGE3_PIN);
+    hood_range1_analog_source = hal.analogin->channel(HOOD_RANGE1_ANALOG_PIN);
+    hood_range2_analog_source = hal.analogin->channel(HOOD_RANGE2_ANALOG_PIN);
+    hood_range3_analog_source = hal.analogin->channel(HOOD_RANGE3_ANALOG_PIN);
     
     hood_range1 = new AP_RangeFinder_SharpGP2Y(hood_range1_analog_source, 
                                                &hood_range1_mode_filter);

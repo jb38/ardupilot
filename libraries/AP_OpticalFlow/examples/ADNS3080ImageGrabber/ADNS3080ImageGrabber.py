@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # File: ADNS3080ImageGrabber.py
 
 import serial
@@ -7,7 +8,7 @@ import time
 from Tkinter import *
 from threading import Timer
 
-comPort = 'COM8'  #default com port
+comPort = '/dev/tty.usbmodemfd131'  #default com port
 comPortBaud = 115200
 
 class App:
